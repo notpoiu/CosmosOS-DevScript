@@ -1,11 +1,11 @@
 # Check if Git is installed
-if (-not (Test-Path -Path (Get-Command git -ErrorAction SilentlyContinue))) {
+if (-not (Get-Command git.exe -ErrorAction SilentlyContinue)) {
     # Git is not installed, so we'll use winget to install it
     Write-Host "Git is not installed. Installing Git using winget..."
     winget install --id Git.Git -e --source winget
 
     # Check if the installation was successful
-    if (-not (Test-Path -Path (Get-Command git -ErrorAction SilentlyContinue))) {
+    if (-not (Get-Command git.exe -ErrorAction SilentlyContinue)) {
         Write-Host "Git installation failed. Please install Git manually and rerun the script."
         exit 1
     }
