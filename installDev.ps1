@@ -1,7 +1,7 @@
 # Check if Git is installed
 try {
     $gitPath = (Get-Command git).Source
-    Write-Host "`nGit is installed at $gitPath, Proceeding with cosmos dev kit installation...`n"
+    Write-Host "`nGit is installed at $gitPath,`nProceeding with cosmos dev kit installation..."
 } catch {
     # Git is not installed, so we'll use winget to install it
     Write-Host "`nGit is not installed. Installing Git using winget...`n"
@@ -36,9 +36,8 @@ Set-Location -Path $folderPath
 # Get Cosmos Path
 $cosmosPath = Join-Path -Path $folderPath -ChildPath "Cosmos"
 
-
 if (-not (Test-Path -Path $cosmosPath -PathType Container)) {
-    Write-Host "`nCloning CosmosOS github...`n"
+    Write-Host "Cloning CosmosOS github...`n"
 
     # Clone the CosmosOS repository using Git
     git clone https://github.com/CosmosOS/Cosmos.git
@@ -46,7 +45,7 @@ if (-not (Test-Path -Path $cosmosPath -PathType Container)) {
     git clone https://github.com/CosmosOS/XSharp.git
     git clone https://github.com/CosmosOS/Common.git
 } else {
-    Write-Host "`nUpdating...`n"
+    Write-Host "Updating...`n"
     # Update the dependencies using Git
     Set-Location -Path "$folderPath\Cosmos"
     git pull
@@ -59,12 +58,14 @@ if (-not (Test-Path -Path $cosmosPath -PathType Container)) {
 }
 
 # Change directory to the Cosmos folder
-Set-Location -Path "$folderPath\Cosmos"
+Set-Location -Path "$cosmosPath"
+
+Write-Host "Running setup installer ($cosmosPath\install-VS2022.bat)...`n"
 
 # Run the setup batch file
 .\install-VS2022.bat
 
-Write-Host "`nINSTALLER INFO:`nFolder Path: $folderPath`nSetup Batch Folder Location: $cosmosPath`n`n"
-Write-Host "Script writen by upio, if anything breaks please contact me via discord: realpoiu"
+Write-Host "`nINSTALLER INFO:`nFolder Path: $folderPath`nSetup Batch Location: $cosmosPath\install-VS2022.bat`n"
+Write-Host "Script writen by upio, if anything breaks please contact me via discord: realpoiu`n`n"
 Write-Host "Press any key to continue..."
 $null = Read-Host
