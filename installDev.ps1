@@ -1,19 +1,19 @@
 # Check if Git is installed
 try {
     $gitPath = (Get-Command git).Source
-    Write-Host "Git is installed at $gitPath, continuing..."
+    Write-Host "`nGit is installed at $gitPath, Proceeding with cosmos dev kit installation...`n"
 } catch {
     # Git is not installed, so we'll use winget to install it
-    Write-Host "Git is not installed. Installing Git using winget..."
+    Write-Host "`nGit is not installed. Installing Git using winget...`n"
     winget install --id Git.Git -e --source winget
 
     # Check if the installation was successful
     if (-not (Get-Command git.exe -ErrorAction SilentlyContinue)) {
-        Write-Host "Git installation failed. Please install Git manually and rerun the script."
+        Write-Host "`nGit installation failed. Please install Git manually and rerun the script.`n"
         exit 1
     }
 
-    Write-Host "Git has been successfully installed."
+    Write-Host "`nGit has been successfully installed, Proceeding with cosmos dev kit installation...`n"
 }
 
 # Define the path to the Documents folder
@@ -36,15 +36,18 @@ Set-Location -Path $folderPath
 # Get Cosmos Path
 $cosmosPath = Join-Path -Path $folderPath -ChildPath "Cosmos"
 
-# Clone the CosmosOS repository using Git
+
 if (-not (Test-Path -Path $cosmosPath -PathType Container)) {
-    Write-Host "Cloning CosmosOS github..."
+    Write-Host "`nCloning CosmosOS github...`n"
+
+    # Clone the CosmosOS repository using Git
     git clone https://github.com/CosmosOS/Cosmos.git
     git clone https://github.com/CosmosOS/IL2CPU.git
     git clone https://github.com/CosmosOS/XSharp.git
     git clone https://github.com/CosmosOS/Common.git
 } else {
-    Write-Host "Updating..."
+    Write-Host "`nUpdating...`n"
+    # Update the dependencies using Git
     Set-Location -Path "$folderPath\Cosmos"
     git pull
     Set-Location -Path "$folderPath\IL2CPU"
@@ -61,6 +64,7 @@ Set-Location -Path "$folderPath\Cosmos"
 # Run the setup batch file
 .\install-VS2022.bat
 
+Write-Host "`nINSTALLER INFO:`nFolder Path: $folderPath`nSetup Batch Folder Location: $cosmosPath`n`n"
 Write-Host "Script writen by upio, if anything breaks please contact me via discord: realpoiu"
 Write-Host "Press any key to continue..."
 $null = Read-Host
