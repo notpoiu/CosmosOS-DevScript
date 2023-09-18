@@ -1,5 +1,8 @@
 # Check if Git is installed
-if (-not (Get-Command git.exe -ErrorAction SilentlyContinue)) {
+try {
+    $gitPath = (Get-Command git).Source
+    Write-Host "Git is installed at $gitPath, continuing..."
+} catch {
     # Git is not installed, so we'll use winget to install it
     Write-Host "Git is not installed. Installing Git using winget..."
     winget install --id Git.Git -e --source winget
@@ -41,3 +44,7 @@ Set-Location -Path "$folderPath\Cosmos"
 
 # Run the install-VS2019.bat file
 .\install-VS2019.bat
+
+Write-Host "Press any key to continue..."
+$null = Read-Host
+
