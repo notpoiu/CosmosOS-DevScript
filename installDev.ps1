@@ -33,11 +33,27 @@ if (-not (Test-Path -Path $folderPath -PathType Container)) {
 # Change directory to the CosmosOS folder
 Set-Location -Path $folderPath
 
+# Get Cosmos Path
+$cosmosPath = Join-Path -Path $folderPath -ChildPath "Cosmos"
+
 # Clone the CosmosOS repository using Git
-git clone https://github.com/CosmosOS/Cosmos.git
-git clone https://github.com/CosmosOS/IL2CPU.git
-git clone https://github.com/CosmosOS/XSharp.git
-git clone https://github.com/CosmosOS/Common.git
+if (-not (Test-Path -Path $cosmosPath -PathType Container)) {
+    Write-Host "Cloning CosmosOS github..."
+    git clone https://github.com/CosmosOS/Cosmos.git
+    git clone https://github.com/CosmosOS/IL2CPU.git
+    git clone https://github.com/CosmosOS/XSharp.git
+    git clone https://github.com/CosmosOS/Common.git
+} else {
+    Write-Host "Updating..."
+    Set-Location -Path "$folderPath\Cosmos"
+    git pull
+    Set-Location -Path "$folderPath\IL2CPU"
+    git pull
+    Set-Location -Path "$folderPath\XSharp"
+    git pull
+    Set-Location -Path "$folderPath\Common"
+    git pull
+}
 
 # Change directory to the Cosmos folder
 Set-Location -Path "$folderPath\Cosmos"
@@ -45,6 +61,6 @@ Set-Location -Path "$folderPath\Cosmos"
 # Run the setup batch file
 .\install-VS2022.bat
 
+Write-Host "Script writen by upio, if anything breaks please contact me via discord: realpoiu"
 Write-Host "Press any key to continue..."
 $null = Read-Host
-
