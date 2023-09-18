@@ -42,8 +42,8 @@ git clone https://github.com/CosmosOS/Common.git
 # Change directory to the Cosmos folder
 Set-Location -Path "$folderPath\Cosmos"
 
-# Run the install-VS2019.bat file
-.\install-VS2019.bat
+# Run the setup batch file
+.\install-VS2022.bat
 
 Write-Host "Press any key to continue..."
 $null = Read-Host
