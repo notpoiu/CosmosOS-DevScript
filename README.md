@@ -1,7 +1,6 @@
-# CosmosOSInstaller
-powershell scripts that help me get the dev build of cosmosos
+# powershell scripts
 
-how to use:
+Cosmos OS Dev kit installer:
 ```bash
-iwr -useb https://raw.githubusercontent.com/notpoiu/CosmosOSInstaller/main/installDev.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/notpoiu/PowershellScripts/main/installCosmosDevKit.ps1 | iex
 ```
